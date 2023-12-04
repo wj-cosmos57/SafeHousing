@@ -28,15 +28,11 @@ const RealEstateSearchResultScreen = ({route}) => {
         <TouchableOpacity style={styles.backView} onPress={handleGoBack}>
           <Back width={24} height={24} />
         </TouchableOpacity>
-        <Text style={styles.titleText}>주소 검색 결과</Text>
+        <Text style={styles.titleText}>부동산 검색 결과</Text>
       </View>
 
       <View style={styles.container}>
-        <FlatList
-          data={addressList}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item}) => <Text>{item.address_name}</Text>}
-        />
+        <Text>{JSON.stringify(addressList)}</Text>
       </View>
     </Pressable>
   );

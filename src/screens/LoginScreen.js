@@ -18,18 +18,18 @@ const LoginScreen = () => {
       <Text style={styles.subTitle}>Login to continue</Text>
       <TextInput
         style={styles.textInput}
-        placeholder="Username"
+        placeholder="아이디"
         value={username}
         onChangeText={setUsername}
       />
       <TextInput
         style={styles.textInput}
-        placeholder="Password"
+        placeholder="비밀번호"
         value={password}
         secureTextEntry
         onChangeText={setPassword}
       />
-      <Button title="Login" onPress={handleLogin} />
+      <Button title="로그인" onPress={handleLogin} />
     </View>
   );
 };
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   Title: {
+    fontFamily: 'Pretendard-Bold',
     fontSize: 35,
     color: '#333333',
     fontWeight: 'bold',

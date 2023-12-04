@@ -8,6 +8,7 @@ import {
   ScrollView,
   Pressable,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 
 import Header from '../components/Header';
@@ -67,7 +68,8 @@ const SettingsScreen = ({navigation}) => {
                   <Text style={styles.settingTextView} />
                   <Text style={styles.settingTextViewBold}>앱</Text>
                   <Text style={styles.settingTextView}>
-                    숭실대학교 컴퓨터학부 이우주
+                    숭실대학교 컴퓨터학부 이우주{'\n'}
+                    숭실대학교 컴퓨터학부 김동현
                   </Text>
                   <Text style={styles.settingTextView} />
                   <Text style={styles.settingTextViewBold}>기여</Text>

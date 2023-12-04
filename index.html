@@ -1,0 +1,22 @@
+<html>
+  <style>
+    body {
+      margin: 0 !important;
+    }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <body style="height: 100vh; width: 100vw">
+    <div id="main"></div>
+  </body>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+    let main = document.getElementById("main");
+    new daum.Postcode({
+      oncomplete: function (data) {
+        window.ReactNativeWebView.postMessage(JSON.stringify(data));
+      },
+      width: "100%",
+      height: "100%",
+    }).embed(main);
+  </script>
+</html>

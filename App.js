@@ -10,7 +10,13 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          tabBarActiveTintColor: 'blue',
+          headerShown: false,
+          tabBarStyle: {display: 'none'},
+          unmountOnBlur: true,
+        }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen
           name="Root"
