@@ -19,7 +19,7 @@ import size from '../constants/size';
 import Back from '../../assets/svg/back.svg';
 import Search from '../../assets/svg/search.svg';
 
-const AddressSearchScreen = () => {
+const RealEstateSearchScreen = () => {
   // const [searchText, setSearchText] = useState('');
   // const [addressList, setAddressList] = useState('');
   const [url, setUrl] = useState('https://orderitr2.ssu.today/index.html');
@@ -38,43 +38,6 @@ const AddressSearchScreen = () => {
       });
     }, []),
   );
-
-  // useEffect(() => {
-  //   const focusListener = navigation.addListener('focus', () => {
-  //     setUrl('');
-  //     setUrl('https://orderitr2.ssu.today/index.html');
-  //   });
-
-  //   // 초기 URL 설정
-  //   setUrl('https://orderitr2.ssu.today/index.html');
-
-  //   return () => {
-  //     // 컴포넌트 언마운트 시 리스너 제거
-  //     focusListener.remove();
-  //   };
-  // }, [navigation]);
-
-  // useEffect(() => {
-  //   // 컴포넌트가 마운트된 후 URL을 설정
-  //   setUrl('https://orderitr2.ssu.today/index.html');
-  // }, []);
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     // 페이지를 리로드하기 위한 로직
-  //     // 예: 상태 초기화, 데이터 로드 등
-  //     const reLoadPage = async () => {
-  //       // 여기에 리로드할 때 실행할 로직을 추가하세요.
-  //       // 예를 들어, 상태를 초기화하거나 API를 호출할 수 있습니다.
-  //     };
-
-  //     reLoadPage();
-
-  //     return () => {
-  //       // 필요한 경우 여기에 클린업 로직 추가
-  //     };
-  //   }, []),
-  // );
 
   // Kakao Rest API 활용 -> https://developers.kakao.com/docs/latest/ko/local/dev-guide
   /*
@@ -160,7 +123,7 @@ const AddressSearchScreen = () => {
   );
 };
 
-export default AddressSearchScreen;
+export default RealEstateSearchScreen;
 
 const styles = StyleSheet.create({
   mainView: {

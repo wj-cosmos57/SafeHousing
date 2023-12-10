@@ -10,10 +10,13 @@ import {
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-import dataList from '../../List.json';
+import realEstateData from '../../realEstateData.json';
+import corporationData from '../../corporationData.json';
 
 const ListScreen = ({navigation}) => {
-  const [currentMenu, setCurrentMenu] = useState(0);
+  const [currentMenu, setCurrentMenu] = useState(0); // 0: 부동산 / 1: 법인
+
+  const dataToDisplay = currentMenu == 0 ? realEstateData : corporationData;
 
   return (
     <View style={styles.mainView}>
@@ -55,8 +58,8 @@ const ListScreen = ({navigation}) => {
         <Text style={styles.textStyle}>ListScreen</Text>
       </View> */}
       <ScrollView style={styles.containerView}>
-        {dataList.map((item, index) => (
-          <View style={styles.cardView} key={item.idx}>
+        {dataToDisplay.map((item, index) => (
+          <View style={styles.cardView} key={index}>
             <View
               style={{
                 flexDirection: 'row',

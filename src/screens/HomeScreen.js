@@ -24,6 +24,10 @@ const HomeScreen = (/*{navigation}*/) => {
     navigation.navigate('RealEstateSearchScreen');
   };
 
+  const handleCorporation = () => {
+    navigation.navigate('CorporationSearchScreen');
+  };
+
   return (
     <View style={styles.mainView}>
       <Header />
@@ -43,7 +47,9 @@ const HomeScreen = (/*{navigation}*/) => {
         </TouchableOpacity>
 
         {/* 법인 등기 */}
-        <TouchableOpacity style={styles.corporationCard}>
+        <TouchableOpacity
+          style={styles.corporationCard}
+          onPress={handleCorporation}>
           <Text style={styles.corporationCardTitle}>법인 등기</Text>
           <Text style={styles.corpoationCardDescription}>
             법인의 등기 사항을 확인할 수 있습니다.

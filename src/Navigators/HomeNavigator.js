@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import HomeScreen from '../screens/HomeScreen';
 import RealEstateSearchScreen from '../screens/RealEstateSearchScreen';
 import RealEstateSearchResultScreen from '../screens/RealEstateSearchResultScreen';
+import CorporationSearchScreen from '../screens/CorporationSearchScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +24,12 @@ const HomeNavigator = () => {
       />
       <Stack.Screen
         name="RealEstateSearchResultScreen"
-        component={RealEstateSearchResultScreen}></Stack.Screen>
+        component={RealEstateSearchResultScreen}
+      />
+      <Stack.Screen
+        name="CorporationSearchScreen"
+        component={CorporationSearchScreen}
+      />
     </Stack.Navigator>
   );
 };
