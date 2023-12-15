@@ -62,6 +62,32 @@ const CorporationSearchScreen = () => {
       </View>
 
       <View style={styles.containerView}>
+        <Text
+          style={[
+            styles.titleText,
+            {fontSize: 25, marginTop: 10, marginLeft: 24},
+          ]}>
+          검색을 원하는{'\n'}법인명을 알려주세요 ☺️
+        </Text>
+        <Text
+          style={{
+            color: 'red',
+            marginTop: 3,
+            marginBottom: 3,
+            marginLeft: 24,
+          }}>
+          ❗️"등기소&법인구분" 선택은 검색범위를 좁히는 데 도움이 돼요!
+        </Text>
+        <Text
+          style={{
+            color: 'red',
+            marginTop: 3,
+            marginBottom: 3,
+            marginLeft: 24,
+          }}>
+          ❗️선택하지 않으면 "전체" 범위로 자동 검색돼요
+        </Text>
+
         {/* 등기소 dorpdown */}
 
         <View style={[styles.dropDownView, {zIndex: openOffice ? 100 : 10}]}>
@@ -190,6 +216,12 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 18,
   },
+  titleText: {
+    color: 'black',
+    fontFamily: 'Pretendard-Medium',
+    fontWeight: '600',
+    fontSize: 17,
+  },
   dropDownView: {
     // zIndex: 10,
     flexDirection: 'row',
@@ -209,6 +241,7 @@ const styles = StyleSheet.create({
   },
   dropDownContainer: {
     flex: 4,
+    marginTop: 18,
     // paddingHorizontal: 24, // 좌우 패딩
     // paddingTop: 18, // 상단 패딩
   },

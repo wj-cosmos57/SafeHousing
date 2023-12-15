@@ -24,6 +24,10 @@ const SearchResultScreen = ({route}) => {
     navigation.goBack();
   };
 
+  const handleClickCardItem = () => {
+    console.log('클릭');
+  };
+
   return (
     <View style={styles.mainView} onPress={() => Keyboard.dismiss()}>
       <View style={styles.headerView}>
@@ -38,12 +42,11 @@ const SearchResultScreen = ({route}) => {
 
         <View>
           <Text
-            style={{
-              marginTop: 35,
-              marginLeft: 24,
-              fontSize: 23,
-              fontFamily: 'Pretendard-Medium',
-            }}>
+            style={
+              detailAddress != undefined
+                ? styles.detailAdressTitleView
+                : styles.noDetailAddressTitleView
+            }>
             {buildingName} {detailAddress != '' ? detailAddress : ''}
           </Text>
 
@@ -80,7 +83,10 @@ const SearchResultScreen = ({route}) => {
 
         <ScrollView style={styles.resulScrollView}>
           {realEstaeSearchResult.map((item, index) => (
-            <View style={styles.cardView} key={index}>
+            <TouchableOpacity
+              style={styles.cardView}
+              key={index}
+              onPress={handleClickCardItem}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -89,7 +95,16 @@ const SearchResultScreen = ({route}) => {
                   paddingRight: 16,
                 }}>
                 <View style={{flex: 1}}>
-                  <Text style={styles.cardTitle}>🏠 {item.address}</Text>
+                  <Text style={styles.cardTitle}>
+                    {item.division === '토지'
+                      ? '⛳️ '
+                      : item.division === '건물'
+                      ? '🏠 '
+                      : item.division === '집합건물'
+                      ? '🏢 '
+                      : ''}{' '}
+                    {item.address}
+                  </Text>
                 </View>
               </View>
 
@@ -171,7 +186,7 @@ const SearchResultScreen = ({route}) => {
               </View>
 
               <View style={styles.divider}></View>
-            </View>
+            </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
@@ -231,6 +246,18 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: '#F5F6F8',
   },
+  detailAdressTitleView: {
+    marginTop: 35,
+    marginLeft: 18,
+    fontSize: 23,
+    fontFamily: 'Pretendard-Medium',
+  },
+  noDetailAddressTitleView: {
+    marginTop: 35,
+    marginLeft: 24,
+    fontSize: 23,
+    fontFamily: 'Pretendard-Medium',
+  },
   addressTextView: {
     alignContent: 'center',
     alignItems: 'center',
@@ -251,6 +278,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 18,
     marginRight: 18,
+    marginBottom: 20,
   },
   cardView: {
     backgroundColor: 'white',
@@ -258,19 +286,19 @@ const styles = StyleSheet.create({
     borderColor: '#EEEEEE',
     borderRadius: 17,
     paddingTop: 16,
-    // paddingBottom: 16,
+    paddingBottom: 16,
     marginBottom: 10,
   },
   cardTitle: {
     color: 'black',
     fontFamily: 'Pretendard-Bold',
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 17,
   },
   cardSubtitle: {
     color: '#A6A6A6',
     fontFamily: 'Pretendard-Medium',
-    fontSize: 13,
+    fontSize: 14,
     marginLeft: 3,
     flex: 1,
   },
