@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import size from '../constants/size';
 import Back from '../../assets/svg/back.svg';
@@ -17,6 +18,33 @@ import Search from '../../assets/svg/search.svg';
 const CorporationSearchScreen = () => {
   const [searchText, setSearchText] = useState('');
   const [addressList, setAddressList] = useState('');
+
+  // 등기소 선택 상태
+  const [openOffice, setOpenOffice] = useState(false);
+  const [selectedOffice, setSelectedOffice] = useState(null);
+  const [officeOptions, setOfficeOptios] = useState([
+    {label: '전체 등기소', value: '전체 등기소'},
+    {label: '서울중앙지방법법원 등기국', value: '서울중앙지방법법원 등기국'},
+    {
+      label: '서울중앙지방법원 중부등기소',
+      value: '서울중앙지방법원 중부등기소',
+    },
+  ]);
+
+  // 법인 구분 선택 상태
+  const [openDivisoin, setOpenDivison] = useState(false);
+  const [selectedDivison, setSelectedDivision] = useState(null);
+  const [divisionOptions, setDivisionOptions] = useState([
+    {
+      label: '전체 법인(지배인, 미성년자, 법정 대리인 제외',
+      value: '전체 법인(지배인, 미성년자, 법정 대리인 제외',
+    },
+    {label: '주식회사', value: '주식회사'},
+    {
+      label: '합명회사',
+      value: '합명회사',
+    },
+  ]);
 
   const navigation = useNavigation();
 
@@ -34,6 +62,56 @@ const CorporationSearchScreen = () => {
       </View>
 
       <View style={styles.containerView}>
+        {/* 등기소 dorpdown */}
+
+        <View style={[styles.dropDownView, {zIndex: openOffice ? 100 : 10}]}>
+          <View style={styles.dropDownTitleView}>
+            <Text style={styles.dropDownTitleText}>등기소</Text>
+          </View>
+          <View style={styles.dropDownContainer}>
+            <DropDownPicker
+              open={openOffice}
+              value={selectedOffice}
+              items={officeOptions}
+              setOpen={setOpenOffice}
+              setValue={setSelectedOffice}
+              setItems={setOfficeOptios}
+              placeholder={'관할 등기소를 선택하세요.'}
+              style={styles.dropDownStyle}
+              textStyle={styles.dropDownTextStyle}
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+            />
+          </View>
+
+          {/* <View>
+            <Text>선택된 등기소: {value === null ? 'none' : value}</Text>
+          </View> */}
+        </View>
+
+        <View style={[styles.dropDownView, {zIndex: openDivisoin ? 100 : 10}]}>
+          <View style={styles.dropDownTitleView}>
+            <Text style={styles.dropDownTitleText}>법인구분</Text>
+          </View>
+          <View style={styles.dropDownContainer}>
+            <DropDownPicker
+              open={openDivisoin}
+              value={selectedDivison}
+              items={divisionOptions}
+              setOpen={setOpenDivison}
+              setValue={setSelectedDivision}
+              setItems={setDivisionOptions}
+              placeholder={'법인 종류를 선택하세요.'}
+              style={styles.dropDownStyle}
+              textStyle={styles.dropDownTextStyle}
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+            />
+          </View>
+
+          {/* <View>
+            <Text>선택된 등기소: {value === null ? 'none' : value}</Text>
+          </View> */}
+        </View>
+
         <View style={styles.searchViewOuter}>
           <View style={styles.searchView}>
             <View style={styles.searchViewInner}>
@@ -112,11 +190,51 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 18,
   },
+  dropDownView: {
+    // zIndex: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 24,
+    marginRight: 24,
+    marginBottom: 10,
+  },
+  dropDownTitleView: {
+    flex: 1,
+    // width: '15%',
+    justifyContent: 'flex-start',
+  },
+  dropDownTitleText: {
+    fontFamily: 'Pretendard-Medium',
+    fontSize: 14,
+  },
+  dropDownContainer: {
+    flex: 4,
+    // paddingHorizontal: 24, // 좌우 패딩
+    // paddingTop: 18, // 상단 패딩
+  },
+  dropDownStyle: {
+    backgroundColor: '#f8f8f8', // 배경색
+    borderColor: '#e2e2e2', // 테두리 색상
+    borderWidth: 1, // 테두리 두께
+    borderRadius: 12, // 모서리 둥글기
+  },
+  dropDownTextStyle: {
+    fontFamily: 'Pretendard-Regular', // 폰트
+    fontSize: 16, // 폰트 크기
+    color: '#636363', // 폰트 색상
+  },
+  dropDownContainerStyle: {
+    backgroundColor: '#ffffff', // 드롭다운 리스트의 배경색
+    borderColor: '#e2e2e2', // 드롭다운 리스트의 테두리 색상
+    // ...기타 필요한 스타일 속성
+  },
   searchViewOuter: {
+    zIndex: 1, // dropDownPicker가 가려지는 문제를 해결하기 위해
     height: 47,
     width: '100%',
     paddingLeft: 24,
     paddingRight: 24,
+    marginTop: 10,
     marginBottom: 12,
   },
   searchView: {

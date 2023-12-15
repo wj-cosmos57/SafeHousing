@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,36 +9,68 @@ import {
   TouchableOpacity,
   Keyboard,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 
 import size from '../constants/size';
 import Back from '../../assets/svg/back.svg';
 import Search from '../../assets/svg/search.svg';
 
-const RealEstateSearchResultScreen = ({route}) => {
+const RealEstateSearchDetailScreen = ({route}) => {
   const navigation = useNavigation();
   const {addressList} = route.params;
 
-  const [searchText, setSearchText] = useState('');
+  const [detailAddress, setDetailAddress] = useState('');
 
   const buildingName = JSON.stringify(addressList.buildingName).slice(1, -1);
   const jibunAddress = JSON.stringify(addressList.jibunAddress).slice(1, -1);
   const roadAddress = JSON.stringify(addressList.roadAddress).slice(1, -1);
 
+  // 스크린 포커스 시 detailAddress 상태 초기화
+  useFocusEffect(
+    React.useCallback(() => {
+      setDetailAddress('');
+    }, []),
+  );
+
   const handleGoBack = () => {
+    Keyboard.dismiss();
     navigation.goBack();
   };
 
+  const handleGoResultScreen = () => {
+    navigation.navigate('SearchResultScreen', {
+      buildingName: buildingName,
+      jibunAddress: jibunAddress,
+      roadAddress: roadAddress,
+      detailAddress: detailAddress, // 추가적인 세부 정보
+    });
+  };
+
+  const handleGoSkip = () => {
+    navigation.navigate('SearchResultScreen', {
+      buildingName: buildingName,
+      jibunAddress: jibunAddress,
+      roadAddress: roadAddress,
+    });
+  };
+
   return (
+    /*
+    React Native에서 TextInput 컴포넌트를 사용하면 앱 상에서 키보드가 자동으로 올라옴. 
+    사용자가 TextInput 필드를 탭하면, 모바일 장치의 키보드가 활성화되어 입력을 받을 수 있음. 
+    이는 React Native의 기본 동작.
+    TextInput 컴포넌트 외부의 영역을 탭할 때 키보드를 숨기고 싶다면, 
+    Pressable 컴포넌트의 onPress 이벤트를 사용하여 Keyboard.dismiss() 메서드를 호출
+    */
     <Pressable style={styles.mainView} onPress={() => Keyboard.dismiss()}>
       <View style={styles.headerView}>
         <TouchableOpacity style={styles.backView} onPress={handleGoBack}>
           <Back width={24} height={24} />
         </TouchableOpacity>
-        <Text style={styles.titleText}>부동산 검색 결과</Text>
+        <Text style={styles.titleText}>세부 주소 입력</Text>
       </View>
 
-      <View style={styles.container}>
+      <View style={styles.containerView}>
         {/* <Text>{JSON.stringify(addressList)}</Text> */}
         <Text
           style={[
@@ -56,85 +88,86 @@ const RealEstateSearchResultScreen = ({route}) => {
           ❗️구체적인 주소는 정확한 등기 목록을 불러올 수 있어요
         </Text>
 
-        <Text
-          style={{
-            marginTop: 20,
-            marginLeft: 24,
-            fontSize: 23,
-            fontFamily: 'Pretendard-Medium',
-          }}>
-          {buildingName}
-        </Text>
-
-        <View style={[styles.addressTextView, {paddingTop: 10}]}>
-          <View style={[styles.addressText, {backgroundColor: '#e3f2fd'}]}>
-            <Text>도로명</Text>
-          </View>
+        <View style={{flex: 1}}>
           <Text
             style={{
-              fontFamily: 'Pretendard-Bold',
-              fontSize: 15,
-              color: '#636363',
+              marginTop: 35,
+              marginLeft: 24,
+              fontSize: 23,
+              fontFamily: 'Pretendard-Medium',
             }}>
-            {roadAddress}
+            {buildingName}
           </Text>
-        </View>
 
-        <View style={styles.addressTextView}>
-          <View style={[styles.addressText, {backgroundColor: '#e3e3e3'}]}>
-            <Text>구주소</Text>
+          <View style={[styles.addressTextView, {paddingTop: 10}]}>
+            <View style={[styles.addressText, {backgroundColor: '#e3f2fd'}]}>
+              <Text>도로명</Text>
+            </View>
+            <Text
+              style={{
+                fontFamily: 'Pretendard-Bold',
+                fontSize: 15,
+                color: '#636363',
+              }}>
+              {roadAddress}
+            </Text>
           </View>
-          <Text
-            style={{
-              fontFamily: 'Pretendard-Bold',
-              fontSize: 15,
-              color: '#636363',
-            }}>
-            {jibunAddress}
-          </Text>
-        </View>
 
-        <View style={styles.searchViewOuter}>
-          <View style={styles.searchView}>
-            <View style={styles.searchViewInner}>
-              <TextInput
-                style={styles.searchTextInput}
-                clearButtonMode={'while-editing'}
-                placeholder="세부 주소를 입력하세요."
-                value={searchText}
-                onChangeText={setSearchText}
-                // onSubmitEditing={}
-              />
-              <TouchableOpacity
-                style={{justifyContent: 'center'}}
-                // onPress={handleSearch}
-              >
-                <Search />
-              </TouchableOpacity>
+          <View style={styles.addressTextView}>
+            <View style={[styles.addressText, {backgroundColor: '#e3e3e3'}]}>
+              <Text>구주소</Text>
+            </View>
+            <Text
+              style={{
+                fontFamily: 'Pretendard-Bold',
+                fontSize: 15,
+                color: '#636363',
+              }}>
+              {jibunAddress}
+            </Text>
+          </View>
+
+          <View style={styles.searchViewOuter}>
+            <View style={styles.searchView}>
+              <View style={styles.searchViewInner}>
+                <TextInput
+                  style={styles.searchTextInput}
+                  clearButtonMode={'while-editing'}
+                  placeholder="세부 주소를 입력하세요."
+                  value={detailAddress}
+                  onChangeText={setDetailAddress}
+                  onSubmitEditing={handleGoResultScreen}
+                />
+                <TouchableOpacity
+                  style={{justifyContent: 'center'}}
+                  // onPress={handleSearch}
+                >
+                  <Search />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
-
         <View style={styles.bottomContainer}>
           <Text
             style={{
               fontFamily: 'Pretendard-Medium',
               fontSize: 15,
               color: '#636363',
-              textAlign: 'right',
+              textAlign: 'center',
             }}>
-            세부 주소의 입력이 필요없다면 아래의{'\n'}skip 버튼을 눌러주세요!
+            세부 주소의 입력이 필요없다면{'\n'}아래의 skip 버튼을 눌러주세요.
           </Text>
-          <View style={styles.skipView}>
+          <TouchableOpacity style={styles.skipView} onPress={handleGoSkip}>
             <Text style={{fontFamily: 'Pretendard-Bold'}}>Skip</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </Pressable>
   );
 };
 
-export default RealEstateSearchResultScreen;
+export default RealEstateSearchDetailScreen;
 
 const styles = StyleSheet.create({
   mainView: {
@@ -182,10 +215,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 17,
   },
-  container: {
+  containerView: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: 20,
+    marginTop: 20,
   },
   addressTextView: {
     alignContent: 'center',
@@ -226,24 +259,24 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'Pretendard-Regular',
     fontSize: 18,
-    color: '#BCBCBC',
+    // color: '#BCBCBC',
     marginRight: 4,
   },
   bottomContainer: {
     flex: 1,
-    alignItems: 'flex-end',
-    marginTop: 30,
+    justifyContent: 'flex-end',
+    // alignItems: 'flex-end',
+    marginTop: 10,
+    marginBottom: 40,
     marginRight: 24,
+    marginLeft: 24,
   },
   skipView: {
-    height: 30,
+    width: '100%',
+    height: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 20,
-    paddingRight: 20,
+    marginTop: 15,
     borderRadius: 5,
     backgroundColor: '#e3e3e3',
   },

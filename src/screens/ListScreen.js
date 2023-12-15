@@ -10,8 +10,8 @@ import {
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-import realEstateData from '../../realEstateData.json';
-import corporationData from '../../corporationData.json';
+import realEstateData from '../../dummyjson/realEstateData.json';
+import corporationData from '../../dummyjson/corporationData.json';
 
 const ListScreen = ({navigation}) => {
   const [currentMenu, setCurrentMenu] = useState(0); // 0: 부동산 / 1: 법인

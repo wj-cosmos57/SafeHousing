@@ -81,6 +81,16 @@ const SettingsScreen = ({navigation}) => {
                       https://github.com/jonghokim27/ssutoday
                     </Text>
                   </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      Linking.openURL(
+                        'https://github.com/wj-cosmos57/SafeHousing_APP',
+                      )
+                    }>
+                    <Text style={styles.settingTextView}>
+                      https://github.com/wj-cosmos57/SafeHousing
+                    </Text>
+                  </TouchableOpacity>
                 </>
               )}
             </View>

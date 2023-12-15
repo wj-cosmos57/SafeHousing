@@ -191,9 +191,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   settingTextView: {
-    color: '#979797',
+    color: '#007bff',
     fontSize: 12,
     fontFamily: 'Pretendard-Medium',
+    textDecorationLine: 'underline',
   },
 });
 

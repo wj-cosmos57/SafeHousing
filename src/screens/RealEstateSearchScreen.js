@@ -20,16 +20,17 @@ import Back from '../../assets/svg/back.svg';
 import Search from '../../assets/svg/search.svg';
 
 const RealEstateSearchScreen = () => {
+  const navigation = useNavigation();
   // const [searchText, setSearchText] = useState('');
   // const [addressList, setAddressList] = useState('');
   const [url, setUrl] = useState('https://orderitr2.ssu.today/index.html');
   const [webViewReady, setWebViewReady] = useState(true);
-  const navigation = useNavigation();
 
   const handleGoBack = () => {
     navigation.goBack();
   };
 
+  // webView를 refresh
   useFocusEffect(
     React.useCallback(() => {
       setWebViewReady(false);
@@ -112,7 +113,7 @@ const RealEstateSearchScreen = () => {
             source={{uri: url}}
             style={{flex: 1, width: '100%'}}
             onMessage={event => {
-              navigation.navigate('RealEstateSearchResultScreen', {
+              navigation.navigate('RealEstateSearchDetailScreen', {
                 addressList: JSON.parse(event.nativeEvent.data),
               });
             }}
