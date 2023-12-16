@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Pressable,
@@ -16,11 +16,22 @@ import Back from '../../assets/svg/back.svg';
 import Right from '../../assets/svg/right.svg';
 import realEstaeSearchResult from '../../dummyjson/realEstateSearchResult.json';
 import corporationSearchResult from '../../dummyjson/corporationSearchResult.json';
+import Loading from '../components/Loading';
 
 const SearchResultScreen = ({route}) => {
-  const navigation = useNavigation();
   const {menu} = route.params;
-  console.log(menu);
+
+  const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // 3초 후 로딩 화면 숨김
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -28,6 +39,7 @@ const SearchResultScreen = ({route}) => {
 
   const handleClickCardItem = () => {
     console.log('클릭');
+    navigation.navigate('RegistryIssuanceLoadingScreen');
   };
 
   const renderRealEstateResults = () => {
@@ -404,6 +416,7 @@ const SearchResultScreen = ({route}) => {
 
   return (
     <View style={styles.mainView} onPress={() => Keyboard.dismiss()}>
+      {isLoading && <Loading />}
       <View style={styles.headerView}>
         <TouchableOpacity style={styles.backView} onPress={handleGoBack}>
           <Back width={24} height={24} />
