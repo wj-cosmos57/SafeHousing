@@ -1,9 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
+import { request, status } from '../apis/realEstate';
 
-const RegistryIssuanceLoadingScreen = props => {
+const RegistryIssuanceLoadingScreen = ({route}) => {
   const navigation = useNavigation();
 
   const [show, setShow] = useState(true);
@@ -11,12 +12,53 @@ const RegistryIssuanceLoadingScreen = props => {
   const lottieRef = useRef(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.navigate('ListNavigator');
-    }, 3000);
-
-    return () => clearTimeout(timer);
+    requestDo(route.params.menu, route.params.item);
   }, []);
+
+  const requestDo = async (menu, item) => {
+    if(item.type == "토지"){
+      item.type = 0;
+    } else if(item.type == "건물"){
+      item.type = 1;
+    } else if(item.type == "집합건물"){
+      item.type = 2;
+    }
+
+    let requestRes;
+    if(menu == 0){
+      requestRes = await request(item.regId, item.address, item.type);
+    }
+
+    if(requestRes.error){
+      Alert.alert("등기 발급 실패", requestRes.message);
+      navigation.goBack();
+      return;
+    }
+
+    let idx = requestRes.idx;
+    requestResult(idx);
+  }
+
+  const requestResult = async (idx) => {
+    let statusRes = await status(idx);
+    if(statusRes.error){
+      Alert.alert("등기 발급 실패", statusRes.message);
+      navigation.goBack();
+      return;
+    }
+
+    if(statusRes.status == 0){
+      setTimeout(() => {
+        requestResult(idx);
+      }, 1000);
+    } else if(statusRes.status == 1){
+      navigation.navigate('ListNavigator'
+    );
+    } else{
+      Alert.alert("등기 발급 실패", "등기 발급에 실패했습니다.");
+      navigation.goBack();
+    }
+  }
 
   const showLoading = () => {
     setShow(true);

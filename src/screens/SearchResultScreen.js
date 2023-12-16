@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   Keyboard,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -17,6 +18,7 @@ import Right from '../../assets/svg/right.svg';
 import realEstaeSearchResult from '../../dummyjson/realEstateSearchResult.json';
 import corporationSearchResult from '../../dummyjson/corporationSearchResult.json';
 import Loading from '../components/Loading';
+import { search } from '../apis/realEstate';
 
 const SearchResultScreen = ({route}) => {
   const {menu} = route.params;
@@ -24,22 +26,42 @@ const SearchResultScreen = ({route}) => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // 3초 후 로딩 화면 숨김
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+  const [searchResult, setSearchResult] = useState([]);
 
-    return () => clearTimeout(timer);
+  useEffect(() => {
+    if(menu == 0)
+      searchRealEstate();
   }, []);
+
+  const searchRealEstate = async () => {
+    try{
+      const {roadAddress, detailAddress} =
+        route.params;
+
+      let address = roadAddress + (detailAddress ? " " + detailAddress : "");
+      let searchRes = await search(address);
+      if(searchRes.error){
+        Alert.alert("검색 실패", searchRes.message);
+        setIsLoading(false);
+        return;
+      }
+
+      setSearchResult(searchRes.results);
+      setIsLoading(false);
+    } catch(e){
+      setIsLoading(false);
+    }
+  }
 
   const handleGoBack = () => {
     navigation.goBack();
   };
 
-  const handleClickCardItem = () => {
-    console.log('클릭');
-    navigation.navigate('RegistryIssuanceLoadingScreen');
+  const handleClickCardItem = (item) => {
+    navigation.navigate('RegistryIssuanceLoadingScreen', {
+      item: item,
+      menu: menu
+    });
   };
 
   const renderRealEstateResults = () => {
@@ -94,11 +116,13 @@ const SearchResultScreen = ({route}) => {
         {/* 검색 결과 리스트 */}
 
         <ScrollView style={styles.resulScrollView}>
-          {realEstaeSearchResult.map((item, index) => (
+          {searchResult.map((item, index) => (
             <TouchableOpacity
               style={styles.cardView}
               key={index}
-              onPress={handleClickCardItem}>
+              onPress={() => {
+                handleClickCardItem(item)
+              }}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -108,11 +132,11 @@ const SearchResultScreen = ({route}) => {
                 }}>
                 <View style={{flex: 1}}>
                   <Text style={styles.cardTitle}>
-                    {item.division === '토지'
+                    {item.type === "토지"
                       ? '⛳️ '
-                      : item.division === '건물'
+                      : item.type === "건물"
                       ? '🏠 '
-                      : item.division === '집합건물'
+                      : item.type === "집합건물"
                       ? '🏢 '
                       : ''}{' '}
                     {item.address}
@@ -150,37 +174,7 @@ const SearchResultScreen = ({route}) => {
                             <Text style={styles.cardSubtitle}>구분</Text>
                           </View>
                           <Text style={[styles.cardSubtitle, {color: 'black'}]}>
-                            {item.division}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
-
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      paddingLeft: 16,
-                      paddingRight: 16,
-                    }}>
-                    <View style={{flex: 1}}>
-                      <View style={{flexDirection: 'row'}}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            flex: 1,
-                            alignItems: 'center',
-                          }}>
-                          <View
-                            style={{
-                              justifyContent: 'center',
-                              marginBottom: 1,
-                              marginRight: 3,
-                            }}>
-                            <Text style={styles.cardSubtitle}>상태</Text>
-                          </View>
-                          <Text style={[styles.cardSubtitle, {color: 'black'}]}>
-                            {item.state}
+                            {item.type}
                           </Text>
                         </View>
                       </View>
@@ -208,11 +202,11 @@ const SearchResultScreen = ({route}) => {
                               marginRight: 3,
                             }}>
                             <Text style={styles.cardSubtitle}>
-                              부동산 고유번호
+                              고유번호
                             </Text>
                           </View>
                           <Text style={[styles.cardSubtitle, {color: 'black'}]}>
-                            {item.No}
+                            {item.regId}
                           </Text>
                         </View>
                       </View>
