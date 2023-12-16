@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Component} from 'react';
 import {
   View,
@@ -9,6 +9,7 @@ import {
   Pressable,
   TouchableOpacity,
   Linking,
+  Alert,
 } from 'react-native';
 
 import Header from '../components/Header';
@@ -16,17 +17,65 @@ import Footer from '../components/Footer';
 import Right from '../../assets/svg/right.svg';
 import Down from '../../assets/svg/down.svg';
 import Up from '../../assets/svg/up.svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { profile } from '../apis/user';
+import Loading from '../components/Loading';
 
 const SettingsScreen = ({navigation}) => {
   const [showDeveloper, setShowDeveloper] = useState(false);
+  const [nickname, setNickname] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const logoutAsk = () => {
-    // 로그아웃 로직 구현
-  };
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
+  const checkLogin = async () => {
+    try{
+      const profileRes = await profile();
+      if(profileRes.error){
+        Alert.alert("인증 실패", profileRes.message);
+        setIsLoading(false);
+        return;
+      }
+      
+      setNickname(profileRes.name);
+      setIsLoading(false);
+    } catch(e){
+      setIsLoading(false);
+    }
+  }
+
+  logoutAsk = async () => {
+    Alert.alert(
+      "로그아웃",
+      "로그아웃 하시겠습니까?",
+      [
+        {
+          text: "취소",
+          onPress: () => {},
+          style: "cancel"
+        },
+        { text: "확인", onPress: () => logout() }
+      ],
+      { cancelable: true }
+    );
+  }
+
+  const logout = async () => {
+    try{
+      setIsLoading(true);
+      await AsyncStorage.removeItem('accessToken');
+      navigation.navigate('Login');
+    } catch(e){
+      setIsLoading(false);
+    }
+  }
 
   return (
     // [mainView] : 가장 Top View => flex : 1 & width : 100%
     <View style={styles.mainView}>
+      {isLoading && <Loading />}
       {/* [header] */}
       <Header />
       {/* [containerView] : header와 footer를 제외하고 공간 채우기 => flex 1 */}
@@ -34,15 +83,15 @@ const SettingsScreen = ({navigation}) => {
         {/* 프로필 */}
 
         <View style={styles.profileView}>
-          <View>
+          <View style={{}}>
             <Image
               source={require('../../assets/images/profile.png')}
               style={styles.profileImg}
             />
           </View>
-          <View>
-            <View style={{flexDirection: 'row'}}></View>
-            <Text style={styles.nameText}>이우주님</Text>
+          <View style={{justifyContent: "center", marginTop: 10}}>
+            <Text style={styles.nameText}>{nickname}님,</Text>
+            <Text style={styles.nameText}>환영합니다!</Text>
           </View>
         </View>
 
@@ -75,10 +124,10 @@ const SettingsScreen = ({navigation}) => {
                   <Text style={styles.settingTextViewBold}>기여</Text>
                   <TouchableOpacity
                     onPress={() =>
-                      Linking.openURL('https://github.com/jonghokim27/ssutoday')
+                      Linking.openURL('https://github.com/jonghokim27/safehousing-backend')
                     }>
                     <Text style={styles.settingTextView}>
-                      https://github.com/jonghokim27/ssutoday
+                      https://github.com/jonghokim27/safehousing-backend
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -161,7 +210,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Pretendard-Bold',
     fontSize: 35,
     lineHeight: 35,
-    marginBottom: 1,
     color: 'black',
   },
   majorView: {

@@ -221,9 +221,9 @@ const SearchResultScreen = ({route}) => {
                 </View>
 
                 <View style={styles.rightButtonView}>
-                  <TouchableOpacity>
+                  <View style={{justifyContent: "center"}}>
                     <Right />
-                  </TouchableOpacity>
+                  </View>
                 </View>
               </View>
 
@@ -431,6 +431,10 @@ const SearchResultScreen = ({route}) => {
 export default SearchResultScreen;
 
 const styles = StyleSheet.create({
+  rightButtonView: {
+    paddingRight: 15,
+    height: "100%"
+  },
   mainView: {
     flex: 1,
     backgroundColor: 'white',

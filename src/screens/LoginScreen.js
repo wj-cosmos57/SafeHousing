@@ -32,7 +32,7 @@ const LoginScreen = () => {
       const profileRes = await profile();
       if(profileRes.error){
         Alert.alert("로그인 실패", profileRes.message);
-        // await AsyncStorage.removeItem('accessToken');
+        await AsyncStorage.removeItem('accessToken');
         setIsLoading(false);
         return;
       }
@@ -61,6 +61,15 @@ const LoginScreen = () => {
       setIsLoading(false);
     }
   };
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setIsLoading(false);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
