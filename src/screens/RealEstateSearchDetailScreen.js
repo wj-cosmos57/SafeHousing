@@ -39,6 +39,7 @@ const RealEstateSearchDetailScreen = ({route}) => {
 
   const handleGoResultScreen = () => {
     navigation.navigate('SearchResultScreen', {
+      menu: 0,
       buildingName: buildingName,
       jibunAddress: jibunAddress,
       roadAddress: roadAddress,
@@ -48,6 +49,7 @@ const RealEstateSearchDetailScreen = ({route}) => {
 
   const handleGoSkip = () => {
     navigation.navigate('SearchResultScreen', {
+      menu: 0,
       buildingName: buildingName,
       jibunAddress: jibunAddress,
       roadAddress: roadAddress,
@@ -140,8 +142,7 @@ const RealEstateSearchDetailScreen = ({route}) => {
                 />
                 <TouchableOpacity
                   style={{justifyContent: 'center'}}
-                  // onPress={handleSearch}
-                >
+                  onPress={handleGoResultScreen}>
                   <Search />
                 </TouchableOpacity>
               </View>
@@ -278,6 +279,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 15,
     borderRadius: 5,
-    backgroundColor: '#e3e3e3',
+    backgroundColor: '#E3E3E3',
   },
 });

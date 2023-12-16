@@ -15,10 +15,12 @@ import size from '../constants/size';
 import Back from '../../assets/svg/back.svg';
 import Right from '../../assets/svg/right.svg';
 import realEstaeSearchResult from '../../dummyjson/realEstateSearchResult.json';
+import corporationSearchResult from '../../dummyjson/corporationSearchResult.json';
 
 const SearchResultScreen = ({route}) => {
   const navigation = useNavigation();
-  const {buildingName, jibunAddress, roadAddress, detailAddress} = route.params;
+  const {menu} = route.params;
+  console.log(menu);
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -28,15 +30,13 @@ const SearchResultScreen = ({route}) => {
     console.log('클릭');
   };
 
-  return (
-    <View style={styles.mainView} onPress={() => Keyboard.dismiss()}>
-      <View style={styles.headerView}>
-        <TouchableOpacity style={styles.backView} onPress={handleGoBack}>
-          <Back width={24} height={24} />
-        </TouchableOpacity>
-        <Text style={styles.titleText}>등기 검색 결과</Text>
-      </View>
+  const renderRealEstateResults = () => {
+    // 부동산 관련 데이터 추출
+    const {buildingName, jibunAddress, roadAddress, detailAddress} =
+      route.params;
 
+    // 부동산 관련 뷰 렌더링 로직
+    return (
       <View style={styles.containerView}>
         {/* 주소 정보 */}
 
@@ -165,6 +165,36 @@ const SearchResultScreen = ({route}) => {
                               marginBottom: 1,
                               marginRight: 3,
                             }}>
+                            <Text style={styles.cardSubtitle}>상태</Text>
+                          </View>
+                          <Text style={[styles.cardSubtitle, {color: 'black'}]}>
+                            {item.state}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      paddingLeft: 16,
+                      paddingRight: 16,
+                    }}>
+                    <View style={{flex: 1}}>
+                      <View style={{flexDirection: 'row'}}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            flex: 1,
+                            alignItems: 'center',
+                          }}>
+                          <View
+                            style={{
+                              justifyContent: 'center',
+                              marginBottom: 1,
+                              marginRight: 3,
+                            }}>
                             <Text style={styles.cardSubtitle}>
                               부동산 고유번호
                             </Text>
@@ -190,6 +220,197 @@ const SearchResultScreen = ({route}) => {
           ))}
         </ScrollView>
       </View>
+    );
+  };
+
+  const renderCorporationResults = () => {
+    // 기업 관련 데이터 추출
+    const {selectedOffice, selectedDivison, searchCorporationName} =
+      route.params;
+
+    // 기업 관련 뷰 렌더링 로직
+    return (
+      <View style={styles.containerView}>
+        {/* 주소 정보 */}
+
+        <View>
+          <Text style={styles.noDetailAddressTitleView}>
+            {searchCorporationName}
+          </Text>
+
+          <View style={[styles.addressTextView, {paddingTop: 10}]}>
+            <View style={[styles.addressText, {backgroundColor: '#e3f2fd'}]}>
+              <Text>등기소</Text>
+            </View>
+            <Text
+              style={{
+                fontFamily: 'Pretendard-Bold',
+                fontSize: 15,
+                color: '#636363',
+              }}>
+              {selectedOffice}
+            </Text>
+          </View>
+
+          <View style={styles.addressTextView}>
+            <View style={[styles.addressText, {backgroundColor: '#e3e3e3'}]}>
+              <Text>법인구분</Text>
+            </View>
+            <Text
+              style={{
+                fontFamily: 'Pretendard-Bold',
+                fontSize: 15,
+                color: '#636363',
+              }}>
+              {selectedDivison}
+            </Text>
+          </View>
+        </View>
+
+        {/* 검색 결과 리스트 */}
+
+        <ScrollView style={styles.resulScrollView}>
+          {corporationSearchResult.map((item, index) => (
+            <TouchableOpacity
+              style={styles.cardView}
+              key={index}
+              onPress={handleClickCardItem}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginBottom: 5,
+                  paddingLeft: 16,
+                  paddingRight: 16,
+                }}>
+                <View style={{flex: 1}}>
+                  <Text style={styles.cardTitle}>🏢 {item.name}</Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={{flex: 1}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      paddingLeft: 16,
+                      paddingRight: 16,
+                    }}>
+                    <View style={{flex: 1}}>
+                      <View style={{flexDirection: 'row'}}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            flex: 1,
+                            alignItems: 'center',
+                          }}>
+                          <View
+                            style={{
+                              justifyContent: 'center',
+                              marginBottom: 1,
+                              marginRight: 3,
+                            }}>
+                            <Text style={styles.cardSubtitle}>구분</Text>
+                          </View>
+                          <Text style={[styles.cardSubtitle, {color: 'black'}]}>
+                            {item.No}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      paddingLeft: 16,
+                      paddingRight: 16,
+                    }}>
+                    <View style={{flex: 1}}>
+                      <View style={{flexDirection: 'row'}}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            flex: 1,
+                            alignItems: 'center',
+                          }}>
+                          <View
+                            style={{
+                              justifyContent: 'center',
+                              marginBottom: 1,
+                              marginRight: 3,
+                            }}>
+                            <Text style={styles.cardSubtitle}>상태</Text>
+                          </View>
+                          <Text style={[styles.cardSubtitle, {color: 'black'}]}>
+                            {item.division}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      paddingLeft: 16,
+                      paddingRight: 16,
+                    }}>
+                    <View style={{flex: 1}}>
+                      <View style={{flexDirection: 'row'}}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            flex: 1,
+                            alignItems: 'center',
+                          }}>
+                          <View
+                            style={{
+                              justifyContent: 'center',
+                              marginBottom: 1,
+                              marginRight: 3,
+                            }}>
+                            <Text style={styles.cardSubtitle}>
+                              부동산 고유번호
+                            </Text>
+                          </View>
+                          <Text style={[styles.cardSubtitle, {color: 'black'}]}>
+                            {item.office}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.rightButtonView}>
+                  <TouchableOpacity>
+                    <Right />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View style={styles.divider}></View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.mainView} onPress={() => Keyboard.dismiss()}>
+      <View style={styles.headerView}>
+        <TouchableOpacity style={styles.backView} onPress={handleGoBack}>
+          <Back width={24} height={24} />
+        </TouchableOpacity>
+        <Text style={styles.titleText}>등기 검색 결과</Text>
+      </View>
+      {menu === 0 ? renderRealEstateResults() : renderCorporationResults()}
     </View>
   );
 };
@@ -268,7 +489,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Pretendard-Medium',
     fontSize: 15,
     borderRadius: 4,
-    borderColor: '#e2e2e2',
+    borderColor: '#e3e3e3',
     padding: 5,
     marginTop: 2,
     marginRight: 5,
@@ -283,7 +504,7 @@ const styles = StyleSheet.create({
   cardView: {
     backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: '#EEEEEE',
+    borderColor: '#d6d6d6',
     borderRadius: 17,
     paddingTop: 16,
     paddingBottom: 16,

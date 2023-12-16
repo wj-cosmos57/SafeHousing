@@ -16,8 +16,8 @@ import Back from '../../assets/svg/back.svg';
 import Search from '../../assets/svg/search.svg';
 
 const CorporationSearchScreen = () => {
-  const [searchText, setSearchText] = useState('');
-  const [addressList, setAddressList] = useState('');
+  const [searchCorporationName, setSearchCorporationName] = useState('');
+  // const [addressList, setAddressList] = useState('');
 
   // 등기소 선택 상태
   const [openOffice, setOpenOffice] = useState(false);
@@ -48,8 +48,24 @@ const CorporationSearchScreen = () => {
 
   const navigation = useNavigation();
 
+  // 스크린 포커스 시 detailAddress 상태 초기화
+  useFocusEffect(
+    React.useCallback(() => {
+      setSearchCorporationName('');
+    }, []),
+  );
+
   const handleGoBack = () => {
     navigation.goBack();
+  };
+
+  const handleGoResultScreen = () => {
+    navigation.navigate('SearchResultScreen', {
+      menu: 1,
+      selectedOffice: selectedOffice,
+      selectedDivison: selectedDivison,
+      searchCorporationName: searchCorporationName,
+    });
   };
 
   return (
@@ -65,7 +81,7 @@ const CorporationSearchScreen = () => {
         <Text
           style={[
             styles.titleText,
-            {fontSize: 25, marginTop: 10, marginLeft: 24},
+            {fontSize: 25, marginTop: 10, marginBottom: 10, marginLeft: 24},
           ]}>
           검색을 원하는{'\n'}법인명을 알려주세요 ☺️
         </Text>
@@ -76,7 +92,7 @@ const CorporationSearchScreen = () => {
             marginBottom: 3,
             marginLeft: 24,
           }}>
-          ❗️"등기소&법인구분" 선택은 검색범위를 좁히는 데 도움이 돼요!
+          ❗️"등기소&법인구분" 선택은 검색범위를 좁힐 수 있어요!
         </Text>
         <Text
           style={{
@@ -145,14 +161,13 @@ const CorporationSearchScreen = () => {
                 style={styles.searchTextInput}
                 clearButtonMode={'while-editing'}
                 placeholder="법인명을 입력하세요."
-                value={searchText}
-                onChangeText={setSearchText}
-                // onSubmitEditing={}
+                value={searchCorporationName}
+                onChangeText={setSearchCorporationName}
+                onSubmitEditing={handleGoResultScreen}
               />
               <TouchableOpacity
                 style={{justifyContent: 'center'}}
-                // onPress={handleSearch}
-              >
+                onPress={handleGoResultScreen}>
                 <Search />
               </TouchableOpacity>
             </View>
@@ -286,7 +301,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'Pretendard-Regular',
     fontSize: 18,
-    color: '#BCBCBC',
+    // color: '#BCBCBC',
     marginRight: 4,
   },
 });
