@@ -7,6 +7,7 @@ import RealEstateSearchScreen from '../screens/RealEstateSearchScreen';
 import RealEstateSearchDetailScreen from '../screens/RealEstateSearchDetailScreen';
 import CorporationSearchScreen from '../screens/CorporationSearchScreen';
 import SearchResultScreen from '../screens/SearchResultScreen';
+import RegistryIssuanceLoadingScreen from '../screens/RegistryIssuanceLoadingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,10 @@ const HomeNavigator = () => {
         component={CorporationSearchScreen}
       />
       <Stack.Screen name="SearchResultScreen" component={SearchResultScreen} />
+      <Stack.Screen
+        name="RegistryIssuanceLoadingScreen"
+        component={RegistryIssuanceLoadingScreen}
+      />
     </Stack.Navigator>
   );
 };

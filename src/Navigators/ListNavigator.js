@@ -10,7 +10,7 @@ const ListNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="List" component={ListScreen} />
+      <Stack.Screen name="ListScreen" component={ListScreen} />
     </Stack.Navigator>
   );
 };

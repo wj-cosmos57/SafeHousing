@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {WebView} from 'react-native-webview';
 
@@ -17,18 +17,28 @@ import {
 
 import size from '../constants/size';
 import Back from '../../assets/svg/back.svg';
-import Search from '../../assets/svg/search.svg';
+import Loading from '../components/Loading';
 
 const RealEstateSearchScreen = () => {
   const navigation = useNavigation();
   // const [searchText, setSearchText] = useState('');
   // const [addressList, setAddressList] = useState('');
   const [url, setUrl] = useState('https://orderitr2.ssu.today/index.html');
-  const [webViewReady, setWebViewReady] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [webViewReady, setWebViewReady] = useState(false);
 
   const handleGoBack = () => {
     navigation.goBack();
   };
+
+  // useEffect(() => {
+  //   // 3초 후 로딩 화면 숨김
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 3000);
+
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   // webView를 refresh
   useFocusEffect(
@@ -40,10 +50,15 @@ const RealEstateSearchScreen = () => {
     }, []),
   );
 
+  // WebView 로드 완료시 로딩 상태 변경
+  const handleWebViewLoad = () => {
+    setIsLoading(false);
+  };
+
   // Kakao Rest API 활용 -> https://developers.kakao.com/docs/latest/ko/local/dev-guide
   /*
   const handleSearch = async () => {
-    const apiKey = '383bcaae5d54a322f5a9f50b2a22ed0c';
+    const apiKey = '발급받은 apiKey 기입';
     const query = searchText;
 
     // fetch함수 : HTTP 클라이언트 사용하여 카카오지도 API 호출
@@ -80,6 +95,7 @@ const RealEstateSearchScreen = () => {
 
   return (
     <Pressable style={styles.mainView} onPress={() => Keyboard.dismiss()}>
+      {isLoading && <Loading />}
       <View style={styles.headerView}>
         <TouchableOpacity style={styles.backView} onPress={handleGoBack}>
           <Back width={24} height={24} />
@@ -112,6 +128,7 @@ const RealEstateSearchScreen = () => {
           <WebView
             source={{uri: url}}
             style={{flex: 1, width: '100%'}}
+            onLoad={handleWebViewLoad}
             onMessage={event => {
               navigation.navigate('RealEstateSearchDetailScreen', {
                 addressList: JSON.parse(event.nativeEvent.data),
