@@ -8,6 +8,7 @@ const RegistryIssuanceLoadingScreen = ({route}) => {
   const navigation = useNavigation();
 
   const [show, setShow] = useState(true);
+  const [loadingText, setLoadingText] = useState('');
   const [message, setMessage] = useState('');
   const lottieRef = useRef(null);
 
@@ -48,16 +49,46 @@ const RegistryIssuanceLoadingScreen = ({route}) => {
     }
 
     if(statusRes.status == 0){
-      setTimeout(() => {
-        requestResult(idx);
-      }, 1000);
+      setLoadingText("요청이 대기열이 추가되었어요.\n잠시만 기다려주세요.");
     } else if(statusRes.status == 1){
+      setLoadingText("이용자님의 차례가 됐어요.\n열람을 시작할게요.");
+    } else if(statusRes.status == 2){
+      setLoadingText("열람을 준비하고 있어요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 3){
+      setLoadingText("인터넷등기소에 로그인하고 있어요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 4){
+      setLoadingText("등기부등본을 찾고 있어요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 5){
+      setLoadingText("등기부등본을 찾고 있어요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 6){
+      setLoadingText("결제가 진행중이에요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 7){
+      setLoadingText("열람 비용 700원은 저희가 냈어요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 8){
+      setLoadingText("보안 프로그램 응답을 기다리고 있어요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 9){
+      setLoadingText("등기부등본을 열람하고 있어요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 10){
+      setLoadingText("등기부등본을 열람하고 있어요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 11){
+      setLoadingText("등기부등본을 변환하고 있어요.\n잠시만 기다려주세요.");
+    } else if(statusRes.status == 12){
+      setLoadingText("등기부등본을 저장하고 있어요.\n잠시만 기다려주세요.");
+    }
+    else if(statusRes.status == 13){
       navigation.navigate('ListNavigator'
     );
+    return;
     } else{
       Alert.alert("등기 발급 실패", "등기 발급에 실패했습니다.");
       navigation.goBack();
+      return;
     }
+
+    setTimeout(() => {
+      requestResult(idx);
+    }, 1000);
+    
   }
 
   const showLoading = () => {
@@ -83,7 +114,7 @@ const RegistryIssuanceLoadingScreen = ({route}) => {
               ref={lottieRef}
             />
             <Text style={styles.text}>
-              등기를 발급받고 있어요!{'\n'}발급비용 700원은 저희가 냈어요!
+              {loadingText}
             </Text>
           </View>
         </View>
