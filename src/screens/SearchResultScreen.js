@@ -31,6 +31,9 @@ const SearchResultScreen = ({route}) => {
   useEffect(() => {
     if(menu == 0)
       searchRealEstate();
+    else if(menu == 1){
+      setIsLoading(false);
+    }
   }, []);
 
   const searchRealEstate = async () => {

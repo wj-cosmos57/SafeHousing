@@ -1,8 +1,8 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// const API_BASE_URL = 'https://safehousing.ssu.today/';
-const API_BASE_URL = "http://172.30.1.46/";
+const API_BASE_URL = 'https://safehousing.ssu.today/';
+// const API_BASE_URL = "http://172.30.1.46/";
 
 const makeHeaders = async authRequired => {
   if (authRequired) {
