@@ -44,6 +44,10 @@ npm start
 
 # OR using Yarn
 yarn start
+
+# iOS CocoaPods 의존성 설치하기
+cd ios
+pod install
 ```
 
 ### 4) 빌드 및 실행
