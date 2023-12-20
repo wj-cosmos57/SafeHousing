@@ -1,7 +1,7 @@
 # SAFE HOUSING 
 ****[ 2023 오픈소스설계및실습 프로젝트 ]****
 
-<img width="167" alt="image" src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/4236ccf1-1eb1-4f1d-8fe4-62ba2eae88dd">
+<img src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/4236ccf1-1eb1-4f1d-8fe4-62ba2eae88dd" alt="image" style="border: 5px solid black"/>
 
 
 ## 1. 기획의도
@@ -63,5 +63,23 @@ npx react-native run-ios
 (예: npx react-native run-ios --simulator="iPhone 14").
 
 ## 3. 프로젝트 소개
+<img width="420" alt="image" src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/171c426e-8f14-431c-8e83-39d58177947e">
+<img width="189" alt="image" src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/0fc078c2-7d27-42b4-8cd9-d08cdde4e46e">
+<br>
+
+#### [ 부동산 ]
+<img width="416" alt="image" src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/e961fac8-816f-4f78-9165-275a45a83fb0">
+<img width="409" alt="image" src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/b65b625d-57e1-4f12-abf9-1d1052b8f455">
+
+<br>
+
+#### [ 법인 ]
+<img width="409" alt="image" src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/80904035-45d9-483e-b326-abf4a98ffcb2">
+
+<br>
+
+<img width="411" alt="image" src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/9fa61092-8879-4ccf-8de6-aa0d59271bc2">
+<img width="387" alt="image" src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/7eef22fa-f90a-4532-b697-4a87c060f478">
+
 
 ## 4. 프로젝트 시연 영상
