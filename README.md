@@ -1,6 +1,14 @@
 # SAFE HOUSING 
 ****[ 2023 오픈소스설계및실습 프로젝트 ]****
 
+이 리포지토리는 [safehousing]의 [backend 연결이 완료된 버전]입니다.
+
+### 관련 프로젝트
+
+**Frontend Only 버전**:
+- 이 프로젝트의 Frontend 작업만 완료된 버전은 [여기](https://github.com/wj-cosmos57/safehousing_frontend.git)에서 확인하실 수 있습니다.
+- 이 버전은 Backend 시스템과 연결되지 않은 순수한 Frontend 코드만을 포함하고 있어, UI/UX 디자인과 상호작용을 중점적으로 살펴볼 수 있습니다.
+
 <img src="https://github.com/wj-cosmos57/SafeHousing/assets/110080007/4236ccf1-1eb1-4f1d-8fe4-62ba2eae88dd" alt="image" style="border: 5px solid black"/>
 
 
@@ -90,3 +98,5 @@ npx react-native run-ios
 (등기부등본 열람과정이 조금 오래 소요됩니다😓)
 <br><br>
 ![데모영상](https://github.com/wj-cosmos57/SafeHousing/assets/110080007/69dba1c0-b56c-4b5a-9ffe-41e115428954)
+
+backend
